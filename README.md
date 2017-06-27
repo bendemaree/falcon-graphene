@@ -20,7 +20,7 @@ class RootQuery(graphene.ObjectType):
 
 
 api = falcon.API()
-router = GrapheneRouter.from_schema(schema).serve_on(app, uri=None)
+router = GrapheneRouter.from_schema(schema).serve_on(app)
 falcon_graphene.register(api, RootQuery)
 ```
 

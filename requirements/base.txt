@@ -1,0 +1,2 @@
+falcon~=1.0
+graphene~=1.4

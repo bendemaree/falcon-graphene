@@ -39,6 +39,10 @@ class GrapheneRouter:
     def from_schema(cls, schema):
         return GrapheneRouter(schema)
 
+    def with_schema(self, schema):
+        self._schema = schema
+        return self
+
     def serving_on(self, app, uri="/graphql"):
         self._resource = self._resource_kind(self._schema)
         app.add_route(uri, self._resource)

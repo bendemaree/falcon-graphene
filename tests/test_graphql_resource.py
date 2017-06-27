@@ -40,8 +40,14 @@ def test_graphql_endpoint_json_post(app, router):
 
 def test_graphql_endpoint_json_post_without_query(app, router):
     # Given an empty JSON body
+    body = {}
+
     # If I make a GET request to my GraphQL endpoint
-    resp = app.simulate_post("/graphql", headers={"Content-Type": "application/json"})
+    resp = app.simulate_post(
+            "/graphql",
+            headers={"Content-Type": "application/json"},
+            body=json.dumps(body)
+    )
 
     # I expect a Bad Request HTTP response
     assert resp.status == HTTP_400

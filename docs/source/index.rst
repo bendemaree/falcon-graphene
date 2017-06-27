@@ -10,6 +10,27 @@ existing framework features, you get to:
 * Leverage Falcon's `request context`_ in your Graphene ``resolve_*`` methods.
 * Have a |really fast|_ GraphQL API.
 
+Example Usage
+-------------
+
+A quick example::
+
+    import falcon
+    import graphene
+    import falcon_graphene
+
+    class Clock(graphene.ObjectType):
+        name = graphene.String()
+
+
+    class RootQuery(graphene.ObjectType):
+        clock = graphene.Field(Clock)
+
+
+    api = falcon.API()
+    router = GrapheneRouter.from_schema(schema).serve_on(app)
+    falcon_graphene.register(api, RootQuery)
+
 .. _Falcon: https://falconframework.org
 .. _request context: https://falcon.readthedocs.io/en/stable/api/request_and_response.html#Request.context
 .. _really fast: https://falconframework.org/index.html#Metrics

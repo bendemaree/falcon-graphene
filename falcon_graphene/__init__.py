@@ -51,7 +51,7 @@ class GrapheneRouter:
     """Create a router to handle GraphQL requests.
 
     A router holds a reference to a Graphene schema (a pairing of a query
-    and mutation schema) and an optional and an optional resource_kind.
+    and mutation schema) and an optional and an optional resource_type.
 
     You can initialize a router using the :meth:`.from_schema` factory function.
 
@@ -65,14 +65,14 @@ class GrapheneRouter:
 
     Example:
         >>> class MyGraphQLResource(GraphQLResource): pass
-        >>> router = GrapheneRouter(resource_kind=MyGraphQLResource).with_schema(my_schema)
+        >>> router = GrapheneRouter(resource_type=MyGraphQLResource).with_schema(my_schema)
 
     Args:
-        resource_kind: A subclass of :class:`.GraphQLResource`.
+        resource_type: A subclass of :class:`.GraphQLResource`.
     """
 
-    def __init__(self, resource_kind: GraphQLResource = GraphQLResource):
-        self._resource_kind = resource_kind
+    def __init__(self, resource_type: GraphQLResource = GraphQLResource):
+        self._resource_type = resource_type
 
     @classmethod
     def from_schema(cls, schema: graphene.Schema) -> "GrapheneRouter":
@@ -92,6 +92,6 @@ class GrapheneRouter:
         return self
 
     def serving_on(self, app, uri="/graphql"):
-        self._resource = self._resource_kind(self._schema)
+        self._resource = self._resource_type(self._schema)
         app.add_route(uri, self._resource)
         return self

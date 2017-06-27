@@ -50,7 +50,7 @@ class CustomGraphQLResource(GraphQLResource):
         # Perhaps you need the endpoint to reply to OPTIONS requests
         pass
 
-router = GrapheneRouter(resource_kind=CustomGraphQLResource).with_schema(schema).serving_on(api)
+router = GrapheneRouter(resource_type=CustomGraphQLResource).with_schema(schema).serving_on(api)
 ```
 
 ## What is this not?

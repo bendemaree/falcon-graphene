@@ -6,8 +6,11 @@ Helpers for registering [Graphene](http://graphene-python.org/) schemas in [Falc
 
 ```python
 import falcon
+
+from falcon_graphene import GrapheneRouter
+
 import graphene
-import falcon_graphene
+
 
 class Clock(graphene.ObjectType):
     name = graphene.String()
@@ -16,10 +19,13 @@ class Clock(graphene.ObjectType):
 class RootQuery(graphene.ObjectType):
     clock = graphene.Field(Clock)
 
+    def resolve_clock(self, args, context, info):
+        return Clock(name="Charlie")
 
-api = falcon.API()
-router = GrapheneRouter.from_schema(schema).serve_on(app)
-falcon_graphene.register(api, RootQuery)
+
+application = falcon.API()
+schema = graphene.Schema(query=RootQuery)
+router = GrapheneRouter.from_schema(schema).serving_on(application)
 ```
 
 **Note**: You can try this out in the [`examples`](https://github.com/bendemaree/falcon-graphene/blob/master/examples) directory.
@@ -27,10 +33,10 @@ falcon_graphene.register(api, RootQuery)
 We can now execute GraphQL queries via a `GET` or `POST` to `/graphql`:
 
 ```
-http POST https://example.com/graphql query='{ clock { name } }'
+http POST :8000/graphql query='{ clock { name } }'
 ```
 
-This example uses [HTTPie](https://httpie.org).
+**Note**: This example uses [HTTPie](https://httpie.org).
 
 ## What is this?
 
